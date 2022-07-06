@@ -351,6 +351,11 @@
     core-js "^3.15.1"
     nanopop "^2.1.0"
 
+"@types/node@^18.0.3":
+  version "18.0.3"
+  resolved "https://registry.npmmirror.com/@types/node/-/node-18.0.3.tgz#463fc47f13ec0688a33aec75d078a0541a447199"
+  integrity sha512-HzNRZtp4eepNitP+BD6k2L6DROIDG4Q0fm4x+dwfsr6LGmROENnok75VGw40628xf+iR24WeMFcHuuBDUAzzsQ==
+
 "@types/raf@^3.4.0":
   version "3.4.0"
   resolved "https://registry.npmmirror.com/@types/raf/-/raf-3.4.0.tgz#2b72cbd55405e071f1c4d29992638e022b20acc2"
