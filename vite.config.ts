@@ -6,11 +6,20 @@ import vue from '@vitejs/plugin-vue'
 export default defineConfig({
   plugins: [vue()],
   resolve: {
-
-
-    
     alias: {
       "@": resolve("src"),
     },
   },
+  css: {
+    preprocessorOptions: {
+      less: {
+        modifyVars: {
+          'primary-color': '#a1d2d5',
+          'link-color': '#a1d2d5',
+          'border-radius-base': '2px',
+        },
+        javascriptEnabled: true
+      }
+    }
+  }
 })

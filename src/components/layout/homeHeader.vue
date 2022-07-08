@@ -6,7 +6,7 @@
         @click="changeRouter('home')"
       >
         <img src="@/assets/img/logoMini.png" alt="Better-logo" />
-        <h2>Better配置</h2>
+        <span>Better配置</span>
       </div>
       <div class="flex">
         <div
@@ -25,12 +25,15 @@
 
 <script setup lang="ts">
 import { reactive } from '@vue/reactivity'
-// import route from '../../router'
 import { useRouter, useRoute } from 'vue-router'
+interface headerItem {
+  title:string,
+  name:string
+}
 const router = useRouter()
 const route = useRoute()
 console.log(router)
-const headerList = reactive([
+const headerList = reactive<headerItem[]>([
   { title: '首页', name: 'home' },
   { title: '模板中心', name: 'template' },
   { title: '组件库', name: 'template' },
@@ -66,7 +69,7 @@ header {
         width: 30px;
         height: 30px;
       }
-      h2 {
+      span {
         margin-left: 10px;
       }
     }
@@ -78,11 +81,11 @@ header {
       font-size: 1.2rem;
       font-weight: bold;
       &:hover {
-        color: #e9ecef;
+        color: #619cd7;
       }
     }
     .active {
-      color: #e9ecef;
+      color: #619cd7;
     }
   }
 }
