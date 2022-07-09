@@ -1,10 +1,15 @@
 import { defineConfig } from 'vite'
 const { resolve } = require("path")
 import vue from '@vitejs/plugin-vue'
+import { createSvg } from './src/plugins/svgBuilder'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [vue(),
+  // 引入svg
+  createSvg('./src/assets/svg/'),
+
+  ],
   resolve: {
     alias: {
       "@": resolve("src"),

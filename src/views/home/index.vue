@@ -11,7 +11,7 @@
   </section>
 
   <section class="home-template">
-    <div class="template-card" v-for="item in 5">
+    <div @click="goDetail(item)" class="template-card" v-for="item in 5">
       {{ item }}
     </div>
   </section>
@@ -19,11 +19,17 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+const router = useRouter()
+
 const value = ref<string>('')
 
 const onSearch = (searchValue: string) => {
   console.log('use value', searchValue)
   console.log('or use this.value', value.value)
+}
+const goDetail = () => {
+  router.push({name:'editor'})
 }
 </script>
 
@@ -51,6 +57,7 @@ const onSearch = (searchValue: string) => {
   .template-card {
     background-color: rgb(218, 183, 183);
     cursor: pointer;
+      transition: all 0.2 ease-in-out;
     &:hover {
       transform: translateY(-5px);
       transition: all 0.2 ease-in-out;

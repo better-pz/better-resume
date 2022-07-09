@@ -27,11 +27,11 @@ const routes: Array<RouteRecordRaw> = [
         name: 'template',
         component: () => import('@/views/template/index.vue'),
       },
-      {
-        path: '/component',
-        name: 'component',
-        component: () => import('@/views/component/index.vue'),
-      },
+      // {
+      //   path: '/component',
+      //   name: 'component',
+      //   component: () => import('@/views/component/index.vue'),
+      // },
       {
         path: '/contact',
         name: 'contact',
