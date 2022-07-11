@@ -20,35 +20,55 @@
         <div class="menus-right">
           <div class="menus-info">
             <div class="menus-info-title">{{ menusInfo.name }}</div>
-            <!-- <VueDraggableNext
-      v-model="list1"
-      :group="{ name: 'people', pull: 'clone', put: true }"
-      :sort="true"
-      @change="log"
-      :move="checkMove"
-      style="width: 100%; height: 100%"
-    >
-      <transition-group>
-        <div v-for="element in list1" :key="element">
-          <Drag :component-name="element.componentName"></Drag>
-        </div>
-      </transition-group>
-    </VueDraggableNext> -->
-            <div class="menus-info-item" v-for="item in menusInfo.children">
-              <div class="menus-info-item_icon">
-                <svg-icon :icon="item.icon"></svg-icon>
-              </div>
-              <div>
-                {{ item.name }}
-              </div>
-            </div>
+            <!-- 文档:https://www.itxst.com/vue-draggable/jirneq6b.html -->
+            <VueDraggableNext
+              :group="{ name: 'component', pull: 'clone' }"
+              :sort="false"
+              dragClass="dragClass"
+              ghostClass="ghostClass"
+              chosenClass="chosenClass"
+              v-model="menusInfo.children"
+              @start="drag = true"
+              @end="drag = false"
+            >
+              <transition-group>
+                <div class="menus-info-item" v-for="item in menusInfo.children">
+                  <div class="menus-info-item_icon">
+                    <svg-icon :icon="item.icon" size="30"></svg-icon>
+                  </div>
+                  <div> 
+                    {{ item.name }}
+                  </div>
+                </div>
+              </transition-group>
+            </VueDraggableNext>
+
             <div></div>
           </div>
         </div>
       </aside>
-      <section class="editor-main">操作区域</section>
+      <section class="editor-main">
+        <VueDraggableNext
+          v-model="editList"
+          group="component"
+          @start="drag2 = true"
+          @end="drag2 = false"
+        >
+          <transition-group>
+            <!-- <div v-if="!!editList.length" class="editor-main-component"> -->
+            <div v-for="item in editList">
+              <div>
+                {{ item }}
+              </div>
+            </div>
+            <!-- </div> -->
+            <div class="edit-add">
+              <svg-icon icon="add" size="30"></svg-icon>
+            </div>
+          </transition-group>
+        </VueDraggableNext>
+      </section>
       <aside class="config">
-        <svg-icon icon="phone"></svg-icon>
         <!-- {{menusInfo(menusActive)}} -->
       </aside>
     </div>
@@ -60,6 +80,7 @@ import { reactive } from '@vue/reactivity'
 import { VueDraggableNext } from 'vue-draggable-next'
 
 import { ref, watch, toRef } from 'vue'
+import { colSize } from 'ant-design-vue/lib/grid/Col'
 interface menusitem {
   value: number
   name: string
@@ -86,7 +107,7 @@ const menus = reactive<menusinfo[]>([
       {
         name: '分割线',
         value: 3,
-        icon: 'phone',
+        icon: 'dividingLine',
       },
     ],
   },
@@ -104,6 +125,10 @@ const menus = reactive<menusinfo[]>([
 ])
 let menusActive = ref(0)
 let menusInfo = ref<menusinfo>(menus[0])
+let drag = ref(false)
+let drag2 = ref(false)
+const editList = reactive([])
+console.log(111, editList)
 watch(
   menusActive,
   (val) => {
@@ -171,6 +196,7 @@ watch(
         }
       }
       .menus-right {
+        user-select: none;
         width: 270px;
         overflow-x: hidden;
         padding: 10px;
@@ -189,10 +215,25 @@ watch(
             align-items: center;
             padding: 10px;
           }
+          .ghostClass {
+            background-color: blue !important;
+          }
+          .chosenClass {
+            background-color: red !important;
+            opacity: 1 !important;
+          }
+          .dragClass {
+            background-color: blueviolet !important;
+            opacity: 1 !important;
+            box-shadow: none !important;
+            outline: none !important;
+            background-image: none !important;
+          }
           .menus-info-item {
             cursor: move;
             margin: 5px;
             text-align: center;
+            border: 1px dashed #949191;
             .menus-info-item_icon {
               font-size: 12px;
               height: 68px;
@@ -201,7 +242,6 @@ watch(
               display: flex;
               align-items: center;
               justify-content: center;
-              margin-bottom: 10px;
             }
           }
         }
@@ -212,6 +252,7 @@ watch(
       background-color: rgb(240, 240, 240);
       height: 100%;
       display: flex;
+
       justify-content: center;
       align-items: center;
       flex: 1 1 0%;
@@ -219,6 +260,20 @@ watch(
       overflow: hidden;
       user-select: none;
       cursor: grab;
+      .editor-main-component {
+        width: 100%;
+        height: 100%;
+      }
+      .edit-add {
+        height: 60px;
+        width: 100%;
+        padding: 10px;
+        background-color: #fff;
+        border: 1px dashed #dce5ed;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
     }
     .config {
       width: 360px;
