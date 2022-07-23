@@ -22,7 +22,7 @@
             <div class="menus-info-title">{{ menusInfo.name }}</div>
             <!-- 文档:https://www.itxst.com/vue-draggable/jirneq6b.html -->
             <VueDraggableNext
-              :group="{ name: 'component', pull: 'clone' }"
+              :group="{ name: 'component', pull: 'clone', put: false  }"
               :sort="false"
               dragClass="dragClass"
               ghostClass="ghostClass"
@@ -38,7 +38,7 @@
                   </div>
                   <div> 
                     {{ item.name }}
-                  </div>
+                  </div> 
                 </div>
               </transition-group>
             </VueDraggableNext>
@@ -56,7 +56,7 @@
         >
           <transition-group>
             <!-- <div v-if="!!editList.length" class="editor-main-component"> -->
-            <div v-for="item in editList">
+            <div v-for="item in editList" class="editor-main-component">
               <div>
                 {{ item }}
               </div>
@@ -127,7 +127,9 @@ let menusActive = ref(0)
 let menusInfo = ref<menusinfo>(menus[0])
 let drag = ref(false)
 let drag2 = ref(false)
-const editList = reactive([])
+// editList不能使用reactive绑定
+const editList = ref([])
+
 console.log(111, editList)
 watch(
   menusActive,
@@ -260,6 +262,9 @@ watch(
       overflow: hidden;
       user-select: none;
       cursor: grab;
+      .editor-item {
+
+      }
       .editor-main-component {
         width: 100%;
         height: 100%;
